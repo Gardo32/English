@@ -2,12 +2,20 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 
+// Force this page to render dynamically
+export const dynamic = 'force-dynamic'
+
 export default async function StudentsPage() {
   const supabase = createServerComponentClient({ cookies })
-  const { data: students } = await supabase
+  const { data: students, error } = await supabase
     .from('students')
     .select('*')
     .order('name')
+
+  if (error) {
+    console.error('Error fetching students:', error)
+    return <div>Error loading students. Please try again later.</div>
+  }
 
   return (
     <div className="space-y-8">
@@ -27,4 +35,3 @@ export default async function StudentsPage() {
     </div>
   )
 }
-
