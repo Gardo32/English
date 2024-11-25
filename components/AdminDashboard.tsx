@@ -8,9 +8,11 @@ import BlogPostForm from './BlogPostForm'
 type Post = {
   id: string
   title: string
+  content: string
   excerpt: string
   student_id: string
   published: boolean
+  slug: string
 }
 
 type Student = {
@@ -20,23 +22,20 @@ type Student = {
 
 export default function AdminDashboard() {
   const router = useRouter()
-
-  useEffect(() => {
-    const isAdmin = localStorage.getItem('isAdmin') === 'true'
-    if (!isAdmin) {
-      router.push('/')
-    }
-  }, [router])
-
   const [posts, setPosts] = useState<Post[]>([])
   const [students, setStudents] = useState<Student[]>([])
   const [showForm, setShowForm] = useState(false)
   const [editingPost, setEditingPost] = useState<Post | null>(null)
 
   useEffect(() => {
-    fetchPosts()
-    fetchStudents()
-  }, [])
+    const isAdmin = localStorage.getItem('isAdmin') === 'true'
+    if (!isAdmin) {
+      router.push('/')
+    } else {
+      fetchPosts()
+      fetchStudents()
+    }
+  }, [router])
 
   const fetchPosts = async () => {
     const { data, error } = await supabase
@@ -97,6 +96,31 @@ export default function AdminDashboard() {
     }
   }
 
+  const handleSubmitPost = async (postData: Omit<Post, 'id'>) => {
+    if (editingPost) {
+      const { error } = await supabase
+        .from('posts')
+        .update(postData)
+        .eq('id', editingPost.id)
+      if (error) {
+        console.error('Error updating post:', error)
+      } else {
+        setShowForm(false)
+        fetchPosts()
+      }
+    } else {
+      const { error } = await supabase
+        .from('posts')
+        .insert([postData])
+      if (error) {
+        console.error('Error creating post:', error)
+      } else {
+        setShowForm(false)
+        fetchPosts()
+      }
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -113,10 +137,7 @@ export default function AdminDashboard() {
           post={editingPost}
           students={students}
           onClose={() => setShowForm(false)}
-          onSubmit={() => {
-            setShowForm(false)
-            fetchPosts()
-          }}
+          onSubmit={handleSubmitPost}
         />
       )}
       <div className="space-y-4">

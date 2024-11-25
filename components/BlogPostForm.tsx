@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase'
 
 type Post = {
   id: string
@@ -10,6 +9,7 @@ type Post = {
   excerpt: string
   student_id: string
   slug: string
+  published: boolean
 }
 
 type Student = {
@@ -21,7 +21,7 @@ type BlogPostFormProps = {
   post: Post | null
   students: Student[]
   onClose: () => void
-  onSubmit: () => void
+  onSubmit: (postData: Omit<Post, 'id'>) => void
 }
 
 export default function BlogPostForm({ post, students, onClose, onSubmit }: BlogPostFormProps) {
@@ -30,6 +30,7 @@ export default function BlogPostForm({ post, students, onClose, onSubmit }: Blog
   const [excerpt, setExcerpt] = useState(post?.excerpt || '')
   const [studentId, setStudentId] = useState(post?.student_id || '')
   const [slug, setSlug] = useState(post?.slug || '')
+  const [published, setPublished] = useState(post?.published || false)
 
   useEffect(() => {
     if (post) {
@@ -38,33 +39,20 @@ export default function BlogPostForm({ post, students, onClose, onSubmit }: Blog
       setExcerpt(post.excerpt)
       setStudentId(post.student_id)
       setSlug(post.slug)
+      setPublished(post.published)
     }
   }, [post])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const postData = { title, content, excerpt, student_id: studentId, slug }
-    
-    if (post) {
-      const { error } = await supabase
-        .from('posts')
-        .update(postData)
-        .eq('id', post.id)
-      if (error) {
-        console.error('Error updating post:', error)
-      } else {
-        onSubmit()
-      }
-    } else {
-      const { error } = await supabase
-        .from('posts')
-        .insert(postData)
-      if (error) {
-        console.error('Error creating post:', error)
-      } else {
-        onSubmit()
-      }
-    }
+    onSubmit({
+      title,
+      content,
+      excerpt,
+      student_id: studentId,
+      slug,
+      published
+    })
   }
 
   return (
@@ -127,6 +115,17 @@ export default function BlogPostForm({ post, students, onClose, onSubmit }: Blog
           required
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
         />
+      </div>
+      <div>
+        <label className="flex items-center">
+          <input
+            type="checkbox"
+            checked={published}
+            onChange={(e) => setPublished(e.target.checked)}
+            className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-600"
+          />
+          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Published</span>
+        </label>
       </div>
       <div className="flex justify-end space-x-2">
         <button

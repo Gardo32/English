@@ -32,7 +32,7 @@ export default function Slideshow({ posts }: SlideshowProps) {
         }
         scrollElement.scrollLeft = scrollPosition
       }
-      const intervalId = setInterval(scroll, 50)
+      const intervalId = setInterval(scroll, 30)
       return () => clearInterval(intervalId)
     }
   }, [])
