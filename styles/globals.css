@@ -3,48 +3,52 @@
 @tailwind utilities;
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
+  --background: 0 0% 100%; /* Light mode background */
+  --foreground: 0 0% 10%; /* Dark text for light mode */
+  --muted: 0 0% 96%; /* Subtle muted color */
+  --muted-foreground: 0 0% 50%; /* Readable muted foreground */
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --primary: 0 0% 9%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
-  --destructive: 0 84.2% 60.2%;
+  --popover-foreground: 0 0% 10%;
+  --card: 0 0% 98%; /* Slightly different box background */
+  --card-foreground: 0 0% 10%;
+  --box-bg: 0 0% 97%; /* Light box background */
+  --box-border: 0 0% 85%; /* Light box border */
+  --border: 0 0% 85%;
+  --input: 0 0% 85%;
+  --primary: 210 90% 50%; /* Vibrant blue */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 15% 95%;
+  --secondary-foreground: 210 80% 20%;
+  --accent: 340 85% 70%; /* Vibrant pink accent */
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 65% 50%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 0 0% 63.9%;
+  --ring: 210 90% 50%;
   --radius: 0.5rem;
 }
 
 .dark {
-  --background: 0 0% 3.9%;
-  --foreground: 0 0% 98%;
-  --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --border: 0 0% 14.9%;
-  --input: 0 0% 14.9%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 9%;
-  --secondary: 0 0% 14.9%;
-  --secondary-foreground: 0 0% 98%;
-  --accent: 0 0% 14.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 85.7% 97.3%;
-  --ring: 0 0% 14.9%;
+  --background: 0 0% 5%; /* Dark mode background */
+  --foreground: 0 0% 90%; /* Light text for dark mode */
+  --muted: 0 0% 12%; /* Darker muted color */
+  --muted-foreground: 0 0% 75%; /* Readable muted foreground */
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 90%;
+  --card: 0 0% 8%; /* Darker box background */
+  --card-foreground: 0 0% 90%;
+  --box-bg: 0 0% 10%; /* Dark box background */
+  --box-border: 0 0% 18%; /* Slightly lighter border for contrast */
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
+  --primary: 210 90% 65%; /* Slightly brighter blue */
+  --primary-foreground: 0 0% 10%;
+  --secondary: 210 15% 18%; /* Darker secondary background */
+  --secondary-foreground: 210 90% 80%;
+  --accent: 340 70% 50%; /* Muted pink accent */
+  --accent-foreground: 0 0% 90%;
+  --destructive: 0 70% 40%;
+  --destructive-foreground: 0 90% 98%;
+  --ring: 210 70% 40%;
 }
 
 body {
@@ -67,6 +71,22 @@ body {
   @apply text-primary underline underline-offset-4 hover:text-primary/80;
 }
 
+
+.slideshow-container {
+  height: 0;
+  padding-bottom: 90%; /* This will make the container 100% of its original height */
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .hidden {
+    display: none;
+  }
+  .md\\:hidden {
+    display: block;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -75,4 +95,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-

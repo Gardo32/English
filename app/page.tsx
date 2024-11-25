@@ -1,39 +1,58 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Slideshow from '@/components/Slideshow'
+import LatestNews from '@/components/LatestNews'
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies })
-  const { data: posts } = await supabase
-    .from('posts')
-    .select(`
-      id,
-      title,
-      excerpt,
-      slug,
-      students (
-        name,
-        slug
-      )
-    `)
-    .eq('published', true)
-    .order('created_at', { ascending: false })
-    .limit(5)
+
+  const [{ data: posts }, { data: newsItems }] = await Promise.all([
+    supabase
+      .from('posts')
+      .select(`
+        id,
+        title,
+        excerpt,
+        slug,
+        students (
+          name,
+          slug
+        )
+      `)
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+      .limit(5),
+    supabase
+      .from('news')
+      .select('id, title, excerpt, slug')
+      .eq('published', true)
+      .order('created_at', { ascending: false })
+      .limit(3)
+  ])
 
   return (
-    <div className="space-y-12">
-      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-center">Welcome to Our Student Blog</h1>
-      <p className="text-xl text-muted-foreground text-center max-w-[700px] mx-auto">
-        Explore educational and entertaining content created by our Grade 12 IT students.
-      </p>
-      
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-screen">
+      <div className="md:col-span-2 space-y-4"> 
+        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Welcome To NCST Blog</h1>
+        <p className="text-xl text-muted-foreground">
+          Explore educational and entertaining content created by our Grade 12 IT students.
+        </p>
+      </div>
+
+      <div className="md:col-span-1">
+        {newsItems && newsItems.length > 0 && (
+          <LatestNews newsItems={newsItems} />
+        )}
+      </div>
+
       {posts && posts.length > 0 && (
-        <div className="my-12">
-          <h2 className="text-2xl font-semibold mb-4 text-center">Latest Posts</h2>
-          <Slideshow posts={posts} />
+        <div className="slideshow-container md:col-span-3 mt-0">
+          <h2 className="text-2xl font-semibold mb-2">Latest Posts</h2>
+          <div className="slideshow">
+            <Slideshow posts={posts} />
+          </div>
         </div>
       )}
     </div>
   )
 }
-
