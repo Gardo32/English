@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} min-h-screen flex flex-col antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Header />
+          <Header /> 
           <main className="flex-grow container mx-auto px-4 py-8 max-w-4xl">
             {children}
           </main>
