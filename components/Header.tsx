@@ -57,6 +57,9 @@ export default function Header() {
             <Link href="/news" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium hover:text-primary/80">
               News
             </Link>
+            <Link href="/game" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium hover:text-primary/80">
+              Entertainment
+            </Link>
             <button
               onClick={() => {
                 setTheme(theme === 'dark' ? 'light' : 'dark')
