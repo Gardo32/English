@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog'
 import { useGameLogic } from '@/lib/useGameLogic'
 import { drawGame } from '@/lib/drawGame'
+import { X } from 'lucide-react'
+import Link from 'next/link'
 
 const CHARACTER_IMAGE = '/char.png'
 const OBJECT_IMAGES = [
@@ -109,7 +111,7 @@ export default function Game() {
       <Dialog open={!gameStarted && !showNameDialog && !showGameOverDialog} onOpenChange={() => {}}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>2D Catcher Game</DialogTitle>
+            <DialogTitle>NCST 2D Catcher Game</DialogTitle>
             <DialogDescription>
               Catch as many objects as you can in 20 seconds!
             </DialogDescription>
@@ -139,12 +141,17 @@ export default function Game() {
 
       <Dialog open={showGameOverDialog} onOpenChange={setShowGameOverDialog}>
         <DialogContent>
-          <DialogHeader>
+          <DialogHeader className="flex justify-between items-center">
             <DialogTitle>Game Over!</DialogTitle>
-            <DialogDescription>
-              {playerName}, your final score is: {gameState.score}
-            </DialogDescription>
+            <Link href="/#">
+              <Button variant="ghost" size="icon">
+                <X className="h-4 w-4" />
+              </Button>
+            </Link>
           </DialogHeader>
+          <DialogDescription>
+            {playerName}, your final score is: {gameState.score}
+          </DialogDescription>
           <div className="flex justify-between mt-4">
             <Button onClick={handleRetry}>Play Again</Button>
           </div>
@@ -153,3 +160,4 @@ export default function Game() {
     </div>
   )
 }
+

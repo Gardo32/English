@@ -35,7 +35,7 @@ export default async function Home() {
       <div className="md:col-span-2 space-y-4"> 
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">Welcome To NCST Blog</h1>
         <p className="text-xl text-muted-foreground">
-          Explore educational and entertaining content created by our Grade 12 IT students.
+        Discover a wealth of educational and entertaining content crafted by NCST Grade 12 CCP students for their ENG301 website project.
         </p>
       </div>
 

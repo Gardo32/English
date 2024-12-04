@@ -2,8 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Moon, Sun } from 'lucide-react'
+import { Moon, Sun, Info } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -27,6 +33,23 @@ export default function Header() {
             <Link href="/" className="text-sm font-medium hover:text-primary/80">Home</Link>
             <Link href="/students" className="text-sm font-medium hover:text-primary/80">Students</Link>
             <Link href="/news" className="text-sm font-medium hover:text-primary/80">News</Link>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link href="/game" className="text-sm font-medium hover:text-primary/80 flex items-center">
+                    Entertainment
+                    <Info className="ml-1 h-4 w-4" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-center">
+                    This game was created by<br />
+                    the same students who created this website
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="p-2 rounded-md hover:bg-accent hover:text-accent-foreground"
@@ -57,9 +80,22 @@ export default function Header() {
             <Link href="/news" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium hover:text-primary/80">
               News
             </Link>
-            <Link href="/game" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium hover:text-primary/80">
-              Entertainment
-            </Link>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link href="/game" onClick={() => setIsMenuOpen(false)} className="text-lg font-medium hover:text-primary/80 flex items-center">
+                    Entertainment
+                    <Info className="ml-1 h-4 w-4" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-center">
+                    This game was created by<br />
+                    the same students who created this website
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <button
               onClick={() => {
                 setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -76,3 +112,4 @@ export default function Header() {
     </>
   )
 }
+

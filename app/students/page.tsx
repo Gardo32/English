@@ -19,7 +19,7 @@ export default async function StudentsPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl font-bold">Our Students</h1>
+      <h1 className="text-4xl font-bold">Our Team</h1>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {students?.map((student) => (
           <div key={student.id} className="border p-4 rounded shadow">
